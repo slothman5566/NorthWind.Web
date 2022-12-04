@@ -10,6 +10,8 @@ namespace Northwind.Repo
     {
         IEmployeeRepository EmployeeRepository { get; }
        
-        void Complete();
+        void SaveChange();
+
+         Task<int> SaveChangeAsync();
     }
 }

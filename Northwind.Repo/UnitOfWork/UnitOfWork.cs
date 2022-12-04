@@ -20,12 +20,16 @@ namespace Northwind.Repo
         {
             _DbContext = dbContext;
         }
-        public void Complete()
+        public void SaveChange()
         {
 
             _DbContext.SaveChanges();
 
 
+        }
+        public async Task<int> SaveChangeAsync()
+        {
+          return await  _DbContext.SaveChangesAsync();
         }
 
         public void Dispose()
@@ -46,6 +50,8 @@ namespace Northwind.Repo
                 _Disposed = true;
             }
         }
+
+
 
         ~UnitOfWork()
         {

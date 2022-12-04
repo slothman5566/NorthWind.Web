@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Northwind.Repo;
 using Northwind.Service;
+using NorthWind.Data.Models;
 
 namespace NorthWind.Web.Controllers
 {
@@ -17,6 +18,12 @@ namespace NorthWind.Web.Controllers
         {
             var list = _EmployeeService.GetAll().ToList();
             return View(list);
+        }
+
+        [HttpGet("{id}", Name = "Get")]
+        public Employee Get(int id)
+        {
+            return _EmployeeService.FindBy(e => e.EmployeeId == id).FirstOrDefault();
         }
     }
 }

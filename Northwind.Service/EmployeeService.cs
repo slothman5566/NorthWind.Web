@@ -1,5 +1,5 @@
 ﻿using Northwind.Repo;
-using NorthWind.Data.Models;
+using Northwind.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

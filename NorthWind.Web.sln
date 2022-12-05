@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NorthWind.Web", "NorthWind.Web\NorthWind.Web.csproj", "{58069029-49F6-429E-891F-BD5F2962C89C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NorthWind.Data", "NorthWind.Data\NorthWind.Data.csproj", "{5A965AD1-C64A-4101-870C-44600B6802F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Data", "NorthWind.Data\Northwind.Data.csproj", "{5A965AD1-C64A-4101-870C-44600B6802F0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{95852181-9201-4F82-92A8-C43E66363DEA}"
 	ProjectSection(SolutionItems) = preProject
@@ -16,7 +16,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Repo", "Northwind
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Service", "Northwind.Service\Northwind.Service.csproj", "{58BE2835-DFFD-467F-8FE0-B4F2F33FDDA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Service.Test", "Northwind.Service.Test\Northwind.Service.Test.csproj", "{F94142B2-66CC-4671-A101-49C1F26FAEC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Service.Test", "Northwind.Service.Test\Northwind.Service.Test.csproj", "{F94142B2-66CC-4671-A101-49C1F26FAEC4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

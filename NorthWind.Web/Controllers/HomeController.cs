@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Northwind.Repo;
 using Northwind.Service;
-using NorthWind.Data.Models;
+using Northwind.Data.Models;
 
-namespace NorthWind.Web.Controllers
+namespace Northwind.Web.Controllers
 {
     public class HomeController : Controller
     {

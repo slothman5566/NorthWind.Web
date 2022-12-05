@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NorthWind.Data.Entity
+namespace Northwind.Data.Entity
 {
     public abstract class GenerialEntity <T>:BaseEntity, IEntity<T>
     {

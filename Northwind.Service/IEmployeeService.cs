@@ -1,4 +1,4 @@
-﻿using NorthWind.Data.Models;
+﻿using Northwind.Data.Models;
 
 namespace Northwind.Service
 {

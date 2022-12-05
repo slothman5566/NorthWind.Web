@@ -1,4 +1,4 @@
-﻿using NorthWind.Data;
+﻿using Northwind.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;

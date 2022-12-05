@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NorthWind.Data;
-using NorthWind.Data.Models;
+using Northwind.Data;
+using Northwind.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

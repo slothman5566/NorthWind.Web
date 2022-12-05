@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Northwind.Repo;
 using Northwind.Service;
-using NorthWind.Data;
+using Northwind.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

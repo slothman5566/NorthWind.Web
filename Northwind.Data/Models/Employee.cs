@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NorthWind.Data.Models;
+namespace Northwind.Data.Models;
 
 public partial class Employee
 {

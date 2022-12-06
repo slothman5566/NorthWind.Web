@@ -15,6 +15,7 @@ namespace Northwind.Service
 
 
         IQueryable<TEntity> GetAll();
+        
         IQueryable<TEntity> GetAllLazyLoad(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] children);
 
         IQueryable<TEntity> FindBy(Expression<Func<TEntity, bool>> predicate);
@@ -28,7 +29,6 @@ namespace Northwind.Service
         TEntity Edit(TEntity entity);
 
         #region Async
-
 
 
         Task<TEntity> InsertAsync(TEntity entity);

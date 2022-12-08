@@ -16,7 +16,7 @@ namespace Northwind.Service
 
         IQueryable<TEntity> GetAll();
         
-        IQueryable<TEntity> GetAllLazyLoad(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] children);
+        //IQueryable<TEntity> GetAllLazyLoad(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] children);
 
         IQueryable<TEntity> FindBy(Expression<Func<TEntity, bool>> predicate);
 
@@ -38,6 +38,8 @@ namespace Northwind.Service
         Task DeleteRangeAsync(IEnumerable<TEntity> entities);
 
         Task<TEntity> EditAsync(TEntity entity);
+
+
 
         #endregion
     }
@@ -112,10 +114,10 @@ namespace Northwind.Service
         }
 
 
-        public IQueryable<TEntity> GetAllLazyLoad(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] children)
-        {
-            return _Repository.GetAllLazyLoad(filter, children);
-        }
+        //public IQueryable<TEntity> GetAllLazyLoad(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] children)
+        //{
+        //    return _Repository.GetAllLazyLoad(filter, children);
+        //}
 
         #region Async
 

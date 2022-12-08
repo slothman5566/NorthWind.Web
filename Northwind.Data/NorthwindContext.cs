@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Northwind.Data.Models;
 
 namespace Northwind.Data;
@@ -14,6 +15,7 @@ public partial class NorthwindContext : DbContext
     public NorthwindContext(DbContextOptions<NorthwindContext> options)
         : base(options)
     {
+        
     }
 
     public virtual DbSet<Employee> Employees { get; set; }

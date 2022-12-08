@@ -8,8 +8,8 @@ namespace Northwind.WebApi
     {
         public MappingConfig()
         {
-            CreateMap<Employee, EmployeeViewModel>();
-            CreateMap<EmployeeViewModel, Employee>();
+            CreateMap<Employee, EmployeeViewModel>().ReverseMap();
+          
 
         }
     }

@@ -11,6 +11,7 @@ namespace Northwind.WebApi.Model.ViewModel
         [NotNull]
         [StringLength(10)]
         public string FirstName { get; set; }
+
         [NotNull]
         [StringLength(20)]
         public string LastName { get; set; }

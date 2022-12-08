@@ -38,7 +38,7 @@ namespace Northwind.Service.Test
             _employeeRepository.Setup(x => x.FindBy(It.IsAny<Expression<Func<Employee, bool>>>()))
              .Returns((Expression<Func<Employee, bool>> filter) => _employees.Where(filter.Compile()).AsQueryable());
             _employeeRepository.Setup(x => x.GetAll()).Returns(_employees.AsQueryable());
-
+         
             _employeeRepository.Setup(x => x.Delete(It.IsAny<Employee>())).Returns((Employee employee) =>
             {
                 if (_employees.Where(x => x.EmployeeId == employee.EmployeeId).Any())
@@ -98,6 +98,7 @@ namespace Northwind.Service.Test
             Assert.That(result.Count, Is.EqualTo(3));
 
         }
+
 
         [Test]
         public void TestFindBy()

@@ -11,6 +11,7 @@ namespace Northwind.Repo
         public GenericRepository(DbContext dbContext)
         {
             _DbContext = dbContext;
+           
         }
 
      
@@ -54,7 +55,8 @@ namespace Northwind.Repo
 
         public TEntity Edit(TEntity entity)
         {
-            return _DbContext.Set<TEntity>().Update(entity).Entity;
+            _DbContext.Set<TEntity>().Entry(entity).State = EntityState.Modified;
+            return entity;
         }
 
     }

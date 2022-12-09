@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NorthWind.Web", "NorthWind.Web\NorthWind.Web.csproj", "{58069029-49F6-429E-891F-BD5F2962C89C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Web", "NorthWind.Web\Northwind.Web.csproj", "{58069029-49F6-429E-891F-BD5F2962C89C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Data", "NorthWind.Data\Northwind.Data.csproj", "{5A965AD1-C64A-4101-870C-44600B6802F0}"
 EndProject
@@ -18,7 +18,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Service", "Northw
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Service.Test", "Northwind.Service.Test\Northwind.Service.Test.csproj", "{F94142B2-66CC-4671-A101-49C1F26FAEC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.WebApi", "Northwind.WebApi\Northwind.WebApi.csproj", "{97DA12B5-6489-403A-B67C-93B8CDA63DC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.WebAPI", "Northwind.WebApi\Northwind.WebAPI.csproj", "{97DA12B5-6489-403A-B67C-93B8CDA63DC2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Utility", "Northwind.Utility\Northwind.Utility.csproj", "{7F238AD7-CED8-4E1C-9033-B702D9F440EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +52,10 @@ Global
 		{97DA12B5-6489-403A-B67C-93B8CDA63DC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97DA12B5-6489-403A-B67C-93B8CDA63DC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97DA12B5-6489-403A-B67C-93B8CDA63DC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F238AD7-CED8-4E1C-9033-B702D9F440EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F238AD7-CED8-4E1C-9033-B702D9F440EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F238AD7-CED8-4E1C-9033-B702D9F440EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F238AD7-CED8-4E1C-9033-B702D9F440EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

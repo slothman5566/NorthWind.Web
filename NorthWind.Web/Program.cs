@@ -1,23 +1,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using Northwind.Repo;
-using Northwind.Service;
-using Northwind.Data;
+using Northwind.Web.Services;
+using Northwind.Web.Services.IServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+builder.Services.AddControllersWithViews();
 // Add services to the container.
-builder.Services.AddRazorPages();
-builder.Services.AddControllers();
 
-//DB
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddDbContext<NorthwindContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddTransient<IEmployeeService, EmployeeService>();
-
-builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddHttpClient<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
 var app = builder.Build();
 
@@ -28,14 +22,9 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 //app.UseRouting();
 
 app.MapControllerRoute(
@@ -44,7 +33,6 @@ app.MapControllerRoute(
 
 app.UseAuthorization();
 
-app.MapRazorPages();
 
 
 app.Run();

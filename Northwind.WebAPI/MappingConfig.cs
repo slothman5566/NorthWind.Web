@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Northwind.Data.Models;
-using Northwind.WebApi.Model.ViewModel;
+using Northwind.WebAPI.Model.ViewModel;
 
-namespace Northwind.WebApi
+namespace Northwind.WebAPI
 {
     public class MappingConfig : Profile
     {

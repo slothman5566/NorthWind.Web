@@ -1,29 +1,32 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Northwind.Repo;
-using Northwind.Service;
-using Northwind.Data.Models;
+using Newtonsoft.Json;
+using Northwind.Web.Model;
+using Northwind.Web.Model.ViewModel;
+using Northwind.Web.Services.IServices;
 
 namespace Northwind.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private IEmployeeService _EmployeeService;
 
-        public HomeController(IEmployeeService employeeService)
+        private IEmployeeService _employeeService;
+        public HomeController(IEmployeeService employee)
         {
-            _EmployeeService = employeeService;
+            _employeeService = employee;
+
         }
 
-        public IActionResult Index()
+
+
+        public async Task<IActionResult> Index()
         {
-            var list = _EmployeeService.GetAll().ToList();
+            var list = new List<EmployeeViewModel>();
+            var response = await _employeeService.GetAllAsync<APIResponse>();
+            if (response != null && response.IsSuccess)
+            {
+                list = JsonConvert.DeserializeObject<List<EmployeeViewModel>>(response.Result.ToString());
+            }
             return View(list);
-        }
-
-        [HttpGet("{id}", Name = "Get")]
-        public Employee Get(int id)
-        {
-            return _EmployeeService.FindBy(e => e.EmployeeId == id).FirstOrDefault();
         }
     }
 }

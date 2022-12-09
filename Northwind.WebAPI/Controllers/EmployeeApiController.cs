@@ -4,20 +4,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Northwind.Data.Models;
 using Northwind.Service;
-using Northwind.WebApi.Model;
-using Northwind.WebApi.Model.ViewModel;
+using Northwind.WebAPI.Model;
+using Northwind.WebAPI.Model.ViewModel;
 using System.Net;
 
-namespace Northwind.WebApi.Controllers
+namespace Northwind.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeeApiController : ControllerBase
+    public class EmployeeAPIController : ControllerBase
     {
         private IEmployeeService _employeeService;
         private IMapper _mapper;
 
-        public EmployeeApiController(IEmployeeService employeeService, IMapper mapper)
+        public EmployeeAPIController(IEmployeeService employeeService, IMapper mapper)
         {
             _employeeService = employeeService;
             _mapper = mapper;

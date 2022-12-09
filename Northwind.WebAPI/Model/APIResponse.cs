@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Northwind.WebApi.Model
+namespace Northwind.WebAPI.Model
 {
     public class APIResponse
     {

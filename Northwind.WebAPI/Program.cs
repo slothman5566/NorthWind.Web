@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Northwind.Data;
 using Northwind.Repo;
 using Northwind.Service;
-using Northwind.WebApi;
+using Northwind.WebAPI;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);

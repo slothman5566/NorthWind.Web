@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Northwind.WebApi.Model.ViewModel
+namespace Northwind.WebAPI.Model.ViewModel
 {
     public class EmployeeViewModel
     {

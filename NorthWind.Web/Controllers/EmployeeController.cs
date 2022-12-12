@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Northwind.Web.Model;
-using Northwind.Web.Model.ViewModel;
+using Northwind.Utility.Model;
+using Northwind.Utility.Model.ViewModel;
+
 using Northwind.Web.Services.IServices;
 
 namespace Northwind.Web.Controllers

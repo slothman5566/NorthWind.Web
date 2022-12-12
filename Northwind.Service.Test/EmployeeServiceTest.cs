@@ -2,13 +2,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Moq;
 using Northwind.Repo;
-using Northwind.Service;
 using Northwind.Data;
 using Northwind.Data.Models;
 using NUnit.Framework;
 using System.Linq;
 using System.Linq.Expressions;
-
+using Northwind.Repo.Repo.IRepo;
+using Northwind.Service.IService;
 
 namespace Northwind.Service.Test
 {

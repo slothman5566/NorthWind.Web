@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Northwind.Utility.Model.ViewModel
 {
-    internal class Class1
+    public class ErrorViewModel
     {
+        public string? RequestId { get; set; }
+
+        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
     }
 }

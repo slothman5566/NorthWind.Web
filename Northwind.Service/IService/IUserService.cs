@@ -13,9 +13,9 @@ namespace Northwind.Service.IService
     {
         bool IsUniqueUser(string userName);
         
-        Task<LoginRequestViewModel> Login(LoginRequestViewModel viewModel);
+        Task<LoginResponseViewModel> Login(LoginRequestViewModel viewModel);
 
-        Task<UserViewModel> Regiester(RegisterationUserViewModel viewModel);
+        Task<UserViewModel> Register(RegisterationUserViewModel viewModel);
 
     }
 }

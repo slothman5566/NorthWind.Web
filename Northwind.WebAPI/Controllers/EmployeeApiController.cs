@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Northwind.Data.Models;
-using Northwind.Service;
+using Northwind.Service.IService;
+using Northwind.Utility;
 using Northwind.Utility.Model;
 using Northwind.Utility.Model.ViewModel;
 
@@ -26,6 +28,9 @@ namespace Northwind.WebAPI.Controllers
         }
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [Authorize(Roles =SD.Admin)]
         public async Task<ActionResult<APIResponse>> GetAll()
         {
             var _response = new APIResponse();

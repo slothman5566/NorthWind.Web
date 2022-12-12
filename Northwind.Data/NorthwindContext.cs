@@ -52,7 +52,10 @@ public partial class NorthwindContext : DbContext
                 .HasConstraintName("FK_Employees_Employees");
         });
 
+        
+
         OnModelCreatingPartial(modelBuilder);
+        
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

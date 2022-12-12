@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Northwind.Data.Models;
-using Northwind.WebAPI.Model.ViewModel;
+using Northwind.Utility.Model.ViewModel;
+
 
 namespace Northwind.WebAPI
 {
@@ -9,8 +10,8 @@ namespace Northwind.WebAPI
         public MappingConfig()
         {
             CreateMap<Employee, EmployeeViewModel>().ReverseMap();
-          
 
+            CreateMap<LocalUser, UserViewModel>().ReverseMap();
         }
     }
 }

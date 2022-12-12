@@ -1,4 +1,5 @@
-﻿using Northwind.Web.Model.ViewModel;
+﻿using Northwind.Utility.Model.ViewModel;
+
 
 namespace Northwind.Web.Services.IServices
 {

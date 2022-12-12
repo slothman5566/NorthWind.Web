@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Northwind.Data;
+using Northwind.Repo.Repo.IRepo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,11 @@ namespace Northwind.Repo
     {
         protected NorthwindContext _DbContext;
         protected IEmployeeRepository _EmployeeRepository;
-
+        protected IUserRepository _UserRepository;
         protected bool _Disposed;
 
         public IEmployeeRepository EmployeeRepository => _EmployeeRepository ?? (_EmployeeRepository = new EmployeeRepository(_DbContext));
+        public IUserRepository UserRepository => _UserRepository ?? (_UserRepository = new UserRepository(_DbContext));
         public UnitOfWork(NorthwindContext dbContext)
         {
             _DbContext = dbContext;

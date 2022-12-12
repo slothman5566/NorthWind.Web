@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Northwind.Repo
+namespace Northwind.Repo.Repo.IRepo
 {
     public interface IEmployeeRepository : IGenericRepository<Employee>
     {

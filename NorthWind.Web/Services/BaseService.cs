@@ -1,6 +1,7 @@
 ﻿using Azure.Core;
 using Newtonsoft.Json;
-using Northwind.Web.Model;
+using Northwind.Utility.Model;
+
 using Northwind.Web.Services.IServices;
 using System.Text;
 

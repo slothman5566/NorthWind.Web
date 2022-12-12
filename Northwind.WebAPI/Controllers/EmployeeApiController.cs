@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Northwind.Data.Models;
 using Northwind.Service;
-using Northwind.WebAPI.Model;
-using Northwind.WebAPI.Model.ViewModel;
+using Northwind.Utility.Model;
+using Northwind.Utility.Model.ViewModel;
+
 using System.Net;
 
 namespace Northwind.WebAPI.Controllers

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Northwind.Data;
 using Northwind.Data.Models;
 using Northwind.Repo.Repo.IRepo;
 using System;
@@ -10,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Northwind.Repo
 {
-    public class EmployeeRepository : GenericRepository<Employee>, IEmployeeRepository
+    public class UserRepository : GenericRepository<LocalUser>, IUserRepository
     {
-        public EmployeeRepository(DbContext dbContext) : base(dbContext)
+        public UserRepository(DbContext dbContext) : base(dbContext)
         {
         }
     }

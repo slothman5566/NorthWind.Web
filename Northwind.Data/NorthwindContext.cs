@@ -17,9 +17,9 @@ public partial class NorthwindContext : DbContext
     {
         
     }
-
+    
     public virtual DbSet<Employee> Employees { get; set; }
-
+    public DbSet<LocalUser> LocalUsers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

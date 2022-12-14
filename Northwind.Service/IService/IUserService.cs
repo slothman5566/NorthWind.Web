@@ -9,7 +9,7 @@ using Northwind.Utility.Model.ViewModel;
 
 namespace Northwind.Service.IService
 {
-    public interface IUserService : IEntityService<LocalUser>
+    public interface IUserService 
     {
         bool IsUniqueUser(string userName);
         
@@ -18,4 +18,6 @@ namespace Northwind.Service.IService
         Task<UserViewModel> Register(RegisterationUserViewModel viewModel);
 
     }
+
+
 }

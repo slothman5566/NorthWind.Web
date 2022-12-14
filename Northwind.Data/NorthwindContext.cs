@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Northwind.Data.Models;
 
 namespace Northwind.Data;
 
-public partial class NorthwindContext : DbContext
+public partial class NorthwindContext :  IdentityDbContext<IdentityUser>
 {
-    public NorthwindContext()
-    {
-    }
 
     public NorthwindContext(DbContextOptions<NorthwindContext> options)
         : base(options)
@@ -21,6 +20,7 @@ public partial class NorthwindContext : DbContext
     public virtual DbSet<Employee> Employees { get; set; }
     public DbSet<LocalUser> LocalUsers { get; set; }
 
+    public DbSet<ApplicationUser> ApplicationUsers { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Employee>(entity =>
@@ -53,10 +53,10 @@ public partial class NorthwindContext : DbContext
         });
 
         
-
-        OnModelCreatingPartial(modelBuilder);
+        base.OnModelCreating(modelBuilder);
+  
         
     }
 
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+   
 }

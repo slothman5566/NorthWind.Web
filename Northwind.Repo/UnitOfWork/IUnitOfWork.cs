@@ -12,6 +12,8 @@ namespace Northwind.Repo
         IEmployeeRepository EmployeeRepository { get; }
        
         IUserRepository UserRepository { get; }
+
+        IApplicationUserRepository ApplicationUserRepository { get; }
         void SaveChange();
 
          Task<int> SaveChangeAsync();

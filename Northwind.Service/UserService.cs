@@ -69,7 +69,8 @@ namespace Northwind.Service
             var loginResponse = new LoginResponseViewModel()
             {
                 Token = tokenHandler.WriteToken(token),
-                User = _Mapper.Map<UserViewModel>( user)
+                User = _Mapper.Map<UserViewModel>( user),
+                Role=user.Role
             };
 
             return loginResponse;

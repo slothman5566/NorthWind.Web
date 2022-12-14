@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -21,7 +22,11 @@ builder.Services.AddControllers().AddNewtonsoftJson().AddJsonOptions(x =>
 builder.Services.AddEndpointsApiExplorer();
 
 var key = builder.Configuration.GetValue<string>("ApiSettings:SecretKey");
-
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+{
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+}).AddEntityFrameworkStores<NorthwindContext>().AddDefaultTokenProviders();
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -72,20 +77,22 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
+builder.Services.AddDbContext<NorthwindContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+
 
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddDbContext<NorthwindContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 builder.Services.AddTransient<IEmployeeService, EmployeeService>();
-builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IUserService, ApplicationUserService>();
 builder.Services.AddAutoMapper(typeof(MappingConfig));
-
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+   
     app.UseSwagger();
     app.UseSwaggerUI();
 }

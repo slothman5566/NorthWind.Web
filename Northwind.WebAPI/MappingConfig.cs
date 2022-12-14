@@ -12,6 +12,8 @@ namespace Northwind.WebAPI
             CreateMap<Employee, EmployeeViewModel>().ReverseMap();
 
             CreateMap<LocalUser, UserViewModel>().ReverseMap();
+
+            CreateMap<ApplicationUser, UserViewModel>().ReverseMap();
         }
     }
 }

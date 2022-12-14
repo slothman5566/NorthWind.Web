@@ -45,7 +45,7 @@ namespace Northwind.Service.Test
             _unitOfWork.Setup(x => x.UserRepository).Returns(_userRepository.Object);
             var myConfiguration = new Dictionary<string, string>
 {
-                 {"SecretKey", "this is my custom Secret key for authentication"}
+                 {"ApiSettings:SecretKey", "this is my custom Secret key for authentication"}
             };
 
             var configuration = new ConfigurationBuilder()
@@ -145,8 +145,8 @@ namespace Northwind.Service.Test
 
             });
             Assert.IsNotNull(user);
-            var list = _userService.GetAll().ToList();
-            Assert.That(list.Count, Is.EqualTo(4));
+        
+            Assert.That(_users.Count, Is.EqualTo(4));
 
         }
 

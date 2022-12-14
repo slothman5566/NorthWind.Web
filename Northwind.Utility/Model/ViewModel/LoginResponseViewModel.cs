@@ -10,5 +10,6 @@ namespace Northwind.Utility.Model.ViewModel
     {
         public UserViewModel User { get; set; }
         public string Token { get; set; }
+        public string Role { get;set; }
     }
 }

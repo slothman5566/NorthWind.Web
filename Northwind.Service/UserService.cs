@@ -22,10 +22,9 @@ namespace Northwind.Service
         private readonly IConfiguration _Configuration;
         private readonly string secretKey;
 
-        public UserService(IUnitOfWork uow, IMapper mapper, IConfiguration configuration) : base(uow)
+        public UserService(IUnitOfWork uow, IMapper mapper, IConfiguration configuration) : base(uow, uow.UserRepository)
         {
             _Mapper = mapper;
-            _Repository = uow.UserRepository;
             secretKey = configuration.GetValue<string>("ApiSettings:SecretKey");
         }
 

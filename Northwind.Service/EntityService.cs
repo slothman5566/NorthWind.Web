@@ -15,10 +15,10 @@ namespace Northwind.Service
     {
         protected IUnitOfWork _UnitOfWork;
         protected IGenericRepository<TEntity> _Repository;
-        public EntityService(IUnitOfWork uow)
+        public EntityService(IUnitOfWork uow,IGenericRepository<TEntity> repository)
         {
             _UnitOfWork = uow;
-
+            _Repository = repository;
         }
 
         public TEntity Delete(TEntity entity)

@@ -11,9 +11,9 @@ namespace Northwind.Service
 {
     public class EmployeeService : EntityService<Employee>, IEmployeeService
     {
-        public EmployeeService(IUnitOfWork uow) : base(uow)
+        public EmployeeService(IUnitOfWork uow) : base(uow,uow.EmployeeRepository)
         {
-            _Repository = _UnitOfWork.EmployeeRepository;
+            //_Repository = _UnitOfWork.EmployeeRepository;
         }
     }
 }

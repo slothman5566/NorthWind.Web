@@ -26,7 +26,7 @@ namespace Northwind.Service
         private readonly UserManager<IdentityUser> _UserManager;
         private readonly RoleManager<IdentityRole> _RoleManager;
         public ApplicationUserService(IUnitOfWork uow, IMapper mapper, IConfiguration configuration
-            , UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager) : base(uow)
+            , UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager) : base(uow,uow.ApplicationUserRepository)
         {
             _Mapper = mapper;
             _UserManager = userManager;

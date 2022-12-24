@@ -15,6 +15,7 @@ namespace Northwind.Repo
 
         IQueryable<TEntity> FindBy(Expression<Func<TEntity, bool>> predicate);
 
+
         TEntity Insert(TEntity entity);
 
         TEntity Delete(TEntity entity);

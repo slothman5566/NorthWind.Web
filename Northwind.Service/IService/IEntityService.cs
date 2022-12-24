@@ -13,7 +13,7 @@ namespace Northwind.Service.IService
 
         IQueryable<TEntity> GetAll();
 
-        //IQueryable<TEntity> GetAllLazyLoad(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] children);
+        IQueryable<TEntity> GetAllLazyLoad(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] children);
 
         IQueryable<TEntity> FindBy(Expression<Func<TEntity, bool>> predicate);
 

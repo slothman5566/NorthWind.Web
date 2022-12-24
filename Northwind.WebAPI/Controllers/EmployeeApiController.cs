@@ -30,11 +30,11 @@ namespace Northwind.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [Authorize(Roles =SD.Admin)]
+        //[Authorize(Roles =SD.Admin)]
         public async Task<ActionResult<APIResponse>> GetAll()
         {
             var _response = new APIResponse();
-            var result = await _employeeService.GetAll().ToListAsync();
+            var result = await _employeeService.GetAllLazyLoad(null,x=>x.ReportsToNavigation).ToListAsync();
             _response.Result = _mapper.Map<List<EmployeeViewModel>>(result);
             _response.StatusCode = HttpStatusCode.OK;
             return Ok(_response);

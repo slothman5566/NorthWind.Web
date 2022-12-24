@@ -81,10 +81,10 @@ namespace Northwind.Service
         }
 
 
-        //public IQueryable<TEntity> GetAllLazyLoad(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] children)
-        //{
-        //    return _Repository.GetAllLazyLoad(filter, children);
-        //}
+        public IQueryable<TEntity> GetAllLazyLoad(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] children)
+        {
+            return _Repository.GetAllLazyLoad(filter, children);
+        }
 
         #region Async
 
@@ -141,6 +141,7 @@ namespace Northwind.Service
             await _UnitOfWork.SaveChangeAsync();
           
         }
+
 
         #endregion
 

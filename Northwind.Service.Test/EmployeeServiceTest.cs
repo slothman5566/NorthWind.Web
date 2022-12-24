@@ -34,20 +34,21 @@ namespace Northwind.Service.Test
                 new Employee() { EmployeeId = 1,City="AAA" },
                 new Employee() { EmployeeId = 2 },
                 new Employee() { EmployeeId = 3}};
-
+            _employees.First().ReportsTo = 3;
+            _employees.First().ReportsToNavigation = _employees.Last();
             _employeeRepository.Setup(x => x.FindBy(It.IsAny<Expression<Func<Employee, bool>>>()))
              .Returns((Expression<Func<Employee, bool>> filter) => _employees.Where(filter.Compile()).AsQueryable());
             _employeeRepository.Setup(x => x.GetAll()).Returns(_employees.AsQueryable());
-         
+
             _employeeRepository.Setup(x => x.Delete(It.IsAny<Employee>())).Returns((Employee employee) =>
             {
                 if (_employees.Where(x => x.EmployeeId == employee.EmployeeId).Any())
                 {
-                    if( _employees.Remove(_employees.Where(x => x.EmployeeId == employee.EmployeeId).Single()))
+                    if (_employees.Remove(_employees.Where(x => x.EmployeeId == employee.EmployeeId).Single()))
                     {
                         return employee;
                     }
-                    
+
                 }
                 return null;
             });
@@ -65,7 +66,7 @@ namespace Northwind.Service.Test
 
             _employeeRepository.Setup(x => x.DeleteRange(It.IsAny<IEnumerable<Employee>>())).Callback((IEnumerable<Employee> employees) =>
             {
-           
+
                 foreach (var id in _employees.Join(employees, x => x.EmployeeId, y => y.EmployeeId, (x, y) => x.EmployeeId).ToList())
                 {
                     _employees.Remove(_employees.Single(x => x.EmployeeId == id));
@@ -78,16 +79,34 @@ namespace Northwind.Service.Test
             {
                 if (_employees.Where(x => x.EmployeeId == employee.EmployeeId).Any())
                 {
-                    var target=_employees.Single(x => x.EmployeeId == employee.EmployeeId);
+                    var target = _employees.Single(x => x.EmployeeId == employee.EmployeeId);
                     //No
                     target = employee;
                     return target;
                 }
-                
+
                 return null;
             });
+            
+            _employeeRepository.Setup(x => x.GetAllLazyLoad(It.IsAny<Expression<Func<Employee, bool>>>(), It.IsAny<Expression<Func<Employee, object>>[]>()))
+                .Returns((Expression<Func<Employee, bool>> filter, Expression < Func<Employee, object>>[] children) => {
+                    if (children != null)
+                    {
+                        children.ToList().ForEach(_ => _employees.AsQueryable().Include(_).Load());
+                    }
+                    
+                    if (filter == null)
+                    {
+                        return _employees.AsQueryable();
+                    }
 
-           
+                    return _employees.AsQueryable().Where(filter);
+
+                }
+                  
+      
+                ); 
+
         }
 
         [Test]
@@ -127,11 +146,16 @@ namespace Northwind.Service.Test
         {
             var answer = _employees.First();
             var result = _employeeService.Delete(_employees.First());
-            Assert.That(result, Is.EqualTo(answer));
-
-
             var count = _employeeService.GetAll().ToList();
-            Assert.That(count.Count, Is.EqualTo(2));
+            Assert.Multiple(() => {
+
+                Assert.That(result, Is.EqualTo(answer));
+
+
+
+                Assert.That(count.Count, Is.EqualTo(2));
+            });
+           
         }
         [Test]
         public void TestDeleteNotExist()
@@ -150,13 +174,13 @@ namespace Northwind.Service.Test
         [Test]
         public void TestDeleteRange()
         {
-            _employeeService.DeleteRange(new List<Employee>() { 
+            _employeeService.DeleteRange(new List<Employee>() {
                 new Employee() { EmployeeId=1},
                 new Employee() { EmployeeId=2},
                 new Employee() { EmployeeId=3}
 
             });
-         
+
             var count = _employeeService.GetAll().ToList();
             Assert.That(count.Count, Is.EqualTo(0));
 
@@ -174,7 +198,7 @@ namespace Northwind.Service.Test
         [Test]
         public void TestInsert()
         {
-           
+
             var result = _employeeService.Insert(new Employee() { EmployeeId = 4 });
             Assert.That(result.EmployeeId, Is.EqualTo(4));
             var count = _employeeService.GetAll().ToList();
@@ -189,7 +213,7 @@ namespace Northwind.Service.Test
             var source = new Employee() { EmployeeId = 1, City = "BBB" };
             var result = _employeeService.Edit(source);
             Assert.That(result.EmployeeId, Is.EqualTo(1));
-         
+
             Assert.That(result.City, Is.EqualTo("BBB"));
 
         }
@@ -199,7 +223,7 @@ namespace Northwind.Service.Test
         [Test]
         public async Task TestInsertAsync()
         {
-            var result  = await _employeeService.InsertAsync(new Employee() { EmployeeId = 4 });
+            var result = await _employeeService.InsertAsync(new Employee() { EmployeeId = 4 });
             Assert.That(result.EmployeeId, Is.EqualTo(4));
             var count = _employeeService.GetAll().ToList();
             Assert.That(count.Count, Is.EqualTo(4));
@@ -222,7 +246,7 @@ namespace Northwind.Service.Test
         [Test]
         public async Task TestDeleteRangeAsync()
         {
-           await _employeeService.DeleteRangeAsync(new List<Employee>() {
+            await _employeeService.DeleteRangeAsync(new List<Employee>() {
                 new Employee() { EmployeeId=1},
                 new Employee() { EmployeeId=2},
                 new Employee() { EmployeeId=3}

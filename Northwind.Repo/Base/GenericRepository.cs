@@ -2,19 +2,20 @@
 using Northwind.Data;
 using System;
 using System.Linq.Expressions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Northwind.Repo
 {
-    public abstract class GenericRepository<TEntity>:IGenericRepository<TEntity> where TEntity : class
+    public abstract class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
         protected DbContext _DbContext { get; set; }
         public GenericRepository(DbContext dbContext)
         {
             _DbContext = dbContext;
-           
+
         }
 
-     
+
 
         public IQueryable<TEntity> FindBy(Expression<Func<TEntity, bool>> predicate)
         {
@@ -28,13 +29,20 @@ namespace Northwind.Repo
 
         public IQueryable<TEntity> GetAllLazyLoad(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] children)
         {
-            children.ToList().ForEach(_ => _DbContext.Set<TEntity>().Include(_).Load());
-            if (filter == null)
+            var query = _DbContext.Set<TEntity>().AsQueryable();
+            if (children != null)
             {
-                return _DbContext.Set<TEntity>();
+                query = children.Aggregate(query,
+                 (current, include) => current.Include(include));
             }
 
-            return _DbContext.Set<TEntity>().Where(filter);
+
+            if (filter == null)
+            {
+                return query;
+            }
+
+            return query.Where(filter);
         }
 
         public TEntity Insert(TEntity entity)
@@ -44,13 +52,13 @@ namespace Northwind.Repo
 
         public TEntity Delete(TEntity entity)
         {
-          
+
             return _DbContext.Set<TEntity>().Remove(entity).Entity;
         }
         public void DeleteRange(IEnumerable<TEntity> entities)
         {
 
-             _DbContext.Set<TEntity>().RemoveRange(entities);
+            _DbContext.Set<TEntity>().RemoveRange(entities);
         }
 
         public TEntity Edit(TEntity entity)

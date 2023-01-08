@@ -13,7 +13,7 @@ namespace Northwind.Service
     {
         public EmployeeService(IUnitOfWork uow) : base(uow,uow.EmployeeRepository)
         {
-            //_Repository = _UnitOfWork.EmployeeRepository;
+
         }
     }
 }

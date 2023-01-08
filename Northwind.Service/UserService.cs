@@ -15,14 +15,14 @@ using System.Threading.Tasks;
 
 namespace Northwind.Service
 {
-    public class UserService : EntityService<LocalUser>, IUserService
+    public class UserService : BaseService, IUserService
     {
         private readonly IMapper _Mapper;
 
         private readonly IConfiguration _Configuration;
         private readonly string secretKey;
 
-        public UserService(IUnitOfWork uow, IMapper mapper, IConfiguration configuration) : base(uow, uow.UserRepository)
+        public UserService(IUnitOfWork uow, IMapper mapper, IConfiguration configuration) : base()
         {
             _Mapper = mapper;
             secretKey = configuration.GetValue<string>("ApiSettings:SecretKey");
@@ -44,13 +44,13 @@ namespace Northwind.Service
             u.Password == viewModel.Password).FirstOrDefault();
             if (user == null)
             {
-              return  new LoginResponseViewModel()
+                return new LoginResponseViewModel()
                 {
                     Token = string.Empty,
                     User = null
                 };
             }
-           
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(secretKey);
             var descriptor = new SecurityTokenDescriptor
@@ -59,17 +59,17 @@ namespace Northwind.Service
                     new Claim(ClaimTypes.Name,user.Id.ToString()),
                     new Claim(ClaimTypes.Role,user.Role.ToString())
                 }),
-                Expires=DateTime.UtcNow.AddDays(7),
-                SigningCredentials=new SigningCredentials(new SymmetricSecurityKey(key),SecurityAlgorithms.HmacSha256Signature)
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
-            var token=tokenHandler.CreateToken(descriptor);
+            var token = tokenHandler.CreateToken(descriptor);
 
             var loginResponse = new LoginResponseViewModel()
             {
                 Token = tokenHandler.WriteToken(token),
-                User = _Mapper.Map<UserViewModel>( user),
-                Role=user.Role
+                User = _Mapper.Map<UserViewModel>(user),
+                Role = user.Role
             };
 
             return loginResponse;

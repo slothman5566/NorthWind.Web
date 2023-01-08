@@ -10,10 +10,14 @@ using Northwind.Service.IService;
 
 namespace Northwind.Service
 {
-
-    public abstract class EntityService<TEntity> : IEntityService<TEntity> where TEntity : class
+    public class BaseService
     {
         protected IUnitOfWork _UnitOfWork;
+    }
+
+    public abstract class EntityService<TEntity> :BaseService, IEntityService<TEntity> where TEntity : class
+    {
+       
         protected IGenericRepository<TEntity> _Repository;
         public EntityService(IUnitOfWork uow,IGenericRepository<TEntity> repository)
         {

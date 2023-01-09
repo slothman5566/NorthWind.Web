@@ -18,6 +18,10 @@ namespace Northwind.RepoV1.Base
             _db = context;
         }
 
+        public Expression<Func<TEntity, bool>> GetPredicate()
+        {
+            return entity => true;
+        }
 
         #region Create 
 
@@ -125,37 +129,53 @@ namespace Northwind.RepoV1.Base
         }
 
 
-        public IEnumerable<TEntity> GetAll(int? page, int? limit)
+        public PageResultDto<TEntity> GetAll(int? page, int? limit)
         {
             var query = _db.Set<TEntity>().AsQueryable();
+            var count = query.Count();
             if (limit == null)
             {
-                limit ??= query.Count();
+                limit ??= count;
             }
             page ??= 1;
             var offset = limit * (page - 1);
-            return query.AsNoTracking().Skip((int)offset).Take((int)limit).ToList();
+
+            return new()
+            {
+                Page = (int)page,
+                Count = count,
+                Limit = (int)limit,
+                Results = query.AsNoTracking().Skip((int)offset).Take((int)limit).ToList()
+            };
+
         }
 
-        public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate, int? page, int? limit)
+        public PageResultDto<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate, int? page, int? limit)
         {
             var query = _db.Set<TEntity>().Where(predicate);
+            var count = query.Count();
             if (limit == null)
             {
-                limit ??= query.Count();
+                limit ??= count;
             }
             page ??= 1;
             var offset = limit * (page - 1);
-            return query.AsNoTracking().Skip((int)offset).Take((int)limit).ToList();
+            return new()
+            {
+                Page = (int)page,
+                Count = count,
+                Limit = (int)limit,
+                Results = query.AsNoTracking().Skip((int)offset).Take((int)limit).ToList()
+            };
         }
 
-        public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate, int? page, int? limit, params Expression<Func<TEntity, object>>[] includes)
+        public PageResultDto<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate, int? page, int? limit, params Expression<Func<TEntity, object>>[] includes)
         {
             var query = _db.Set<TEntity>().Where(predicate);
-
+            var count = query.Count();
             if (limit == null)
             {
-                limit ??= query.Count();
+                limit ??= count;
             }
             page ??= 1;
             var offset = limit * (page - 1);
@@ -166,7 +186,13 @@ namespace Northwind.RepoV1.Base
                           (current, include) => current.Include(include));
             }
 
-            return query.AsNoTracking().Skip((int)offset).Take((int)limit).ToList();
+            return new()
+            {
+                Page = (int)page,
+                Count = count,
+                Limit = (int)limit,
+                Results = query.AsNoTracking().Skip((int)offset).Take((int)limit).ToList()
+            };
         }
 
         #endregion
@@ -195,41 +221,53 @@ namespace Northwind.RepoV1.Base
             return await query.AsNoTracking().ToListAsync();
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync(int? page, int? limit)
+        public async Task<PageResultDto<TEntity>> GetAllAsync(int? page, int? limit)
         {
             var query = _db.Set<TEntity>().AsQueryable();
-
+            var count = await query.CountAsync();
             if (limit == null)
             {
-                limit ??= query.Count();
+                limit ??= count;
             }
             page ??= 1;
             var offset = limit * (page - 1);
 
-            return await query.AsNoTracking().Skip((int)offset).Take((int)limit).ToListAsync();
+            return new()
+            {
+                Page = (int)page,
+                Count = count,
+                Limit = (int)limit,
+                Results = await query.AsNoTracking().Skip((int)offset).Take((int)limit).ToListAsync()
+            };
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate, int? page, int? limit)
+        public async Task<PageResultDto<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate, int? page, int? limit)
         {
             var query = _db.Set<TEntity>().Where(predicate);
-
+            var count = await query.CountAsync();
             if (limit == null)
             {
-                limit ??= query.Count();
+                limit ??= count;
             }
             page ??= 1;
             var offset = limit * (page - 1);
 
-            return await query.AsNoTracking().Skip((int)offset).Take((int)limit).ToListAsync();
+            return new()
+            {
+                Page = (int)page,
+                Count = count,
+                Limit = (int)limit,
+                Results = await query.AsNoTracking().Skip((int)offset).Take((int)limit).ToListAsync()
+            };
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate, int? page, int? limit, params Expression<Func<TEntity, object>>[] includes)
+        public async Task<PageResultDto<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate, int? page, int? limit, params Expression<Func<TEntity, object>>[] includes)
         {
             var query = _db.Set<TEntity>().Where(predicate);
-
+            var count = await query.CountAsync();
             if (limit == null)
             {
-                limit ??= query.Count();
+                limit ??= count;
             }
             page ??= 1;
             var offset = limit * (page - 1);
@@ -238,7 +276,13 @@ namespace Northwind.RepoV1.Base
                 query = includes.Aggregate(query,
                           (current, include) => current.Include(include));
             }
-            return await query.AsNoTracking().Skip((int)offset).Take((int)limit).ToListAsync();
+            return new()
+            {
+                Page = (int)page,
+                Count = count,
+                Limit = (int)limit,
+                Results = await query.AsNoTracking().Skip((int)offset).Take((int)limit).ToListAsync()
+            };
         }
 
 
@@ -360,17 +404,23 @@ namespace Northwind.RepoV1.Base
 
         }
 
-        public IEnumerable<TResult> Select<TResult>(Expression<Func<TEntity, bool>> predicate, int? page, int? limit, Expression<Func<TEntity, TResult>> selector)
+        public PageResultDto<TResult> Select<TResult>(Expression<Func<TEntity, bool>> predicate, int? page, int? limit, Expression<Func<TEntity, TResult>> selector)
         {
             var query = _db.Set<TEntity>().Where(predicate);
+            var count = query.Count();
             if (limit == null)
             {
-                limit ??= query.Count();
+                limit ??= count;
             }
             page ??= 1;
             var offset = limit * (page - 1);
-            return query.AsNoTracking().Skip((int)offset).Take((int)limit).Select(selector).ToList();
-
+            return new()
+            {
+                Page = (int)page,
+                Count = count,
+                Limit = (int)limit,
+                Results = query.AsNoTracking().Skip((int)offset).Take((int)limit).Select(selector).ToList()
+            };
         }
 
         #endregion
@@ -387,16 +437,23 @@ namespace Northwind.RepoV1.Base
             return await _db.Set<TEntity>().AsNoTracking().Where(predicate).Select(selector).ToListAsync();
         }
 
-        public async Task<IEnumerable<TResult>> SelectAsync<TResult>(Expression<Func<TEntity, bool>> predicate, int? page, int? limit, Expression<Func<TEntity, TResult>> selector)
+        public async Task<PageResultDto<TResult>> SelectAsync<TResult>(Expression<Func<TEntity, bool>> predicate, int? page, int? limit, Expression<Func<TEntity, TResult>> selector)
         {
             var query = _db.Set<TEntity>().Where(predicate);
+            var count = await query.CountAsync();
             if (limit == null)
             {
-                limit ??= query.Count();
+                limit ??= count;
             }
             page ??= 1;
             var offset = limit * (page - 1);
-            return await query.AsNoTracking().Skip((int)offset).Take((int)limit).Select(selector).ToListAsync();
+            return new()
+            {
+                Page = (int)page,
+                Count = count,
+                Limit = (int)limit,
+                Results = await query.AsNoTracking().Skip((int)offset).Take((int)limit).Select(selector).ToListAsync()
+            };
         }
 
         public async Task<TResult> SelectFirstAsync<TResult>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TResult>> selector)
@@ -441,12 +498,32 @@ namespace Northwind.RepoV1.Base
         {
             return await _db.Set<TEntity>().AsNoTracking().AnyAsync(predicate);
         }
+
+
         #endregion
 
-        public Expression<Func<TEntity, bool>> GetPredicate()
+        #region Count
+        public int Count()
         {
-            return entity => true;
+            return _db.Set<TEntity>().AsNoTracking().Count();
         }
+
+        public int Count(Expression<Func<TEntity, bool>> predicate)
+        {
+            return _db.Set<TEntity>().AsNoTracking().Count(predicate);
+        }
+
+        public async Task<int> CountAsync()
+        {
+            return await _db.Set<TEntity>().AsNoTracking().CountAsync();
+        }
+
+        public async Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await _db.Set<TEntity>().AsNoTracking().CountAsync(predicate);
+        }
+
+        #endregion
 
     }
 }

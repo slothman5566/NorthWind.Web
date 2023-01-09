@@ -13,15 +13,20 @@ namespace Northwind.Service
     public class BaseService
     {
         protected IUnitOfWork _UnitOfWork;
+        public BaseService(IUnitOfWork uow)
+        {
+            _UnitOfWork= uow;
+
+        }
     }
 
-    public abstract class EntityService<TEntity> :BaseService, IEntityService<TEntity> where TEntity : class
+    public abstract class EntityService<TEntity> : BaseService, IEntityService<TEntity> where TEntity : class
     {
-       
+
         protected IGenericRepository<TEntity> _Repository;
-        public EntityService(IUnitOfWork uow,IGenericRepository<TEntity> repository)
+        public EntityService(IUnitOfWork uow, IGenericRepository<TEntity> repository):base(uow) 
         {
-            _UnitOfWork = uow;
+         
             _Repository = repository;
         }
 
@@ -74,7 +79,7 @@ namespace Northwind.Service
 
         public IQueryable<TEntity> FindBy(Expression<Func<TEntity, bool>> predicate)
         {
-           return _Repository.FindBy(predicate);
+            return _Repository.FindBy(predicate);
         }
 
 
@@ -101,13 +106,13 @@ namespace Northwind.Service
 
             var model = _Repository.Edit(entity);
 
-          await  _UnitOfWork.SaveChangeAsync();
+            await _UnitOfWork.SaveChangeAsync();
             return model;
         }
 
 
 
-     
+
         public async Task<TEntity> InsertAsync(TEntity entity)
         {
             if (entity == null)
@@ -140,10 +145,10 @@ namespace Northwind.Service
                 throw new ArgumentNullException("entity");
             }
 
-             _Repository.DeleteRange(entities);
+            _Repository.DeleteRange(entities);
 
             await _UnitOfWork.SaveChangeAsync();
-          
+
         }
 
 

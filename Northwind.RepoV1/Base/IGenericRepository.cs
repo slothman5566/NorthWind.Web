@@ -59,7 +59,7 @@ namespace Northwind.RepoV1.Base
         /// <param name="page"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        IEnumerable<TEntity> GetAll(int? page, int? limit);
+        PageResultDto<TEntity> GetAll(int? page, int? limit);
         /// <summary>
         /// query.Where(predicate)
         /// </summary>
@@ -73,7 +73,7 @@ namespace Northwind.RepoV1.Base
         /// <param name="page"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate, int? page, int? limit);
+        PageResultDto<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate, int? page, int? limit);
         /// <summary>
         /// query.Where(predicate).Include(includes)
         /// </summary>
@@ -89,7 +89,7 @@ namespace Northwind.RepoV1.Base
         /// <param name="limit"></param>
         /// <param name="includes"></param>
         /// <returns></returns>
-        IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate, int? page, int? limit, params Expression<Func<TEntity, object>>[] includes);
+        PageResultDto<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate, int? page, int? limit, params Expression<Func<TEntity, object>>[] includes);
 
         #endregion
 
@@ -103,7 +103,7 @@ namespace Northwind.RepoV1.Base
         /// <param name="page"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        Task<IEnumerable<TEntity>> GetAllAsync(int? page, int? limit);
+        Task<PageResultDto<TEntity>> GetAllAsync(int? page, int? limit);
         /// <summary>
         /// query.Where(predicate)
         /// </summary>
@@ -117,7 +117,7 @@ namespace Northwind.RepoV1.Base
         /// <param name="page"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate, int? page, int? limit);
+        Task<PageResultDto<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate, int? page, int? limit);
         /// <summary>
         /// query.Where(predicate).Include(includes)
         /// </summary>
@@ -133,7 +133,7 @@ namespace Northwind.RepoV1.Base
         /// <param name="limit"></param>
         /// <param name="includes"></param>
         /// <returns></returns>
-        Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate, int? page, int? limit, params Expression<Func<TEntity, object>>[] includes);
+        Task<PageResultDto<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate, int? page, int? limit, params Expression<Func<TEntity, object>>[] includes);
 
         #endregion
 
@@ -242,7 +242,7 @@ namespace Northwind.RepoV1.Base
         /// <param name="limit"></param>
         /// <param name="selector"></param>
         /// <returns></returns>
-        IEnumerable<TResult> Select<TResult>(Expression<Func<TEntity, bool>> predicate, int? page, int? limit, Expression<Func<TEntity, TResult>> selector);
+        PageResultDto<TResult> Select<TResult>(Expression<Func<TEntity, bool>> predicate, int? page, int? limit, Expression<Func<TEntity, TResult>> selector);
 
         #endregion
 
@@ -272,7 +272,7 @@ namespace Northwind.RepoV1.Base
         /// <param name="limit"></param>
         /// <param name="selector"></param>
         /// <returns></returns>
-        Task<IEnumerable<TResult>> SelectAsync<TResult>(Expression<Func<TEntity, bool>> predicate, int? page, int? limit, Expression<Func<TEntity, TResult>> selector);
+        Task<PageResultDto<TResult>> SelectAsync<TResult>(Expression<Func<TEntity, bool>> predicate, int? page, int? limit, Expression<Func<TEntity, TResult>> selector);
 
         /// <summary>
         /// query.Where(predicate).Select(selector).FirstOrDefault()
@@ -295,6 +295,7 @@ namespace Northwind.RepoV1.Base
         #endregion
 
         #endregion
+        #region Any
         /// <summary>
         /// query.Any()
         /// </summary>
@@ -317,6 +318,16 @@ namespace Northwind.RepoV1.Base
         /// <param name="predicate"></param>
         /// <returns></returns>
         Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate);
+        #endregion
+        #region Count
+
+        int Count();
+        int Count(Expression<Func<TEntity, bool>> predicate);
+        Task<int> CountAsync();
+        Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate);
+
+        #endregion
+
 
     }
 }

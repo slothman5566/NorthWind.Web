@@ -172,6 +172,22 @@ namespace Northwind.RepoV1.Test
 
         #endregion
 
+        #region Update
+
+        [Test]
+        public void TestUpdate()
+        {
+            _dbContext.ChangeTracker.Clear();
+            var first = _unitOfWork.EmployeeRepository.GetFirst();
+            first.FirstName= "Test";
+            _unitOfWork.EmployeeRepository.Update(first);
+
+            Assert.That(_dbContext.Employees.First().FirstName,Is.EqualTo("Test"));
+
+        }
+
+        #endregion
+
         #region Delete
 
         [Test]
@@ -233,7 +249,7 @@ namespace Northwind.RepoV1.Test
         [Test]
         public void TestGetAllWithPredicatePage()
         {
-            var result = _unitOfWork.EmployeeRepository.GetAll(x => x.EmployeeId > 1,2,1);
+            var result = _unitOfWork.EmployeeRepository.GetAll(x => x.EmployeeId > 1, 2, 1);
 
             CollectionAssert.AreEqual(result.Results.Select(x => x.EmployeeId), _dbContext.Employees.Where(x => x.EmployeeId > 1).Skip(1).Take(1).Select(x => x.EmployeeId));
         }
@@ -241,25 +257,25 @@ namespace Northwind.RepoV1.Test
         [Test]
         public void TestGetAllWithPredicateInclude()
         {
-            var result = _unitOfWork.EmployeeRepository.GetAll(x => x.EmployeeId > 1, x=>x.ReportsToNavigation);
+            var result = _unitOfWork.EmployeeRepository.GetAll(x => x.EmployeeId > 1, x => x.ReportsToNavigation);
 
-            CollectionAssert.AreEqual(result.Select(x => x.ReportsToNavigation.EmployeeId), 
-                _dbContext.Employees.Where(x => x.EmployeeId > 1).Include(x=>x.ReportsToNavigation).Select(x => x.ReportsToNavigation.EmployeeId));
+            CollectionAssert.AreEqual(result.Select(x => x.ReportsToNavigation.EmployeeId),
+                _dbContext.Employees.Where(x => x.EmployeeId > 1).Include(x => x.ReportsToNavigation).Select(x => x.ReportsToNavigation.EmployeeId));
         }
         [Test]
         public void TestGetAllWithPredicatePageInclude()
         {
-            var result = _unitOfWork.EmployeeRepository.GetAll(x => x.EmployeeId > 1,2,1, x => x.ReportsToNavigation);
+            var result = _unitOfWork.EmployeeRepository.GetAll(x => x.EmployeeId > 1, 2, 1, x => x.ReportsToNavigation);
             var anwser = _dbContext.Employees.Where(x => x.EmployeeId > 1).Include(x => x.ReportsToNavigation).Skip(1).Take(1)
                 .Select(x => x.ReportsToNavigation.EmployeeId).ToList();
-            CollectionAssert.AreEqual(result.Results.Select(x => x.ReportsToNavigation.EmployeeId),anwser
+            CollectionAssert.AreEqual(result.Results.Select(x => x.ReportsToNavigation.EmployeeId), anwser
                 );
         }
 
         [Test]
         public async Task TestGetAllAsync()
         {
-            var result =await  _unitOfWork.EmployeeRepository.GetAllAsync();
+            var result = await _unitOfWork.EmployeeRepository.GetAllAsync();
 
             CollectionAssert.AreEqual(result.Select(x => x.EmployeeId), _dbContext.Employees.Select(x => x.EmployeeId));
         }
@@ -267,7 +283,7 @@ namespace Northwind.RepoV1.Test
         [Test]
         public async Task TestGetAllAsyncWithPage()
         {
-            var result =await _unitOfWork.EmployeeRepository.GetAllAsync(2, 1);
+            var result = await _unitOfWork.EmployeeRepository.GetAllAsync(2, 1);
 
             CollectionAssert.AreEqual(result.Results.Select(x => x.EmployeeId), _dbContext.Employees.Skip(1).Take(1).Select(x => x.EmployeeId));
         }
@@ -275,7 +291,7 @@ namespace Northwind.RepoV1.Test
         [Test]
         public async Task TestGetAllAsyncWithPredicate()
         {
-            var result =await _unitOfWork.EmployeeRepository.GetAllAsync(x => x.EmployeeId > 1);
+            var result = await _unitOfWork.EmployeeRepository.GetAllAsync(x => x.EmployeeId > 1);
 
             CollectionAssert.AreEqual(result.Select(x => x.EmployeeId), _dbContext.Employees.Where(x => x.EmployeeId > 1).Select(x => x.EmployeeId));
         }
@@ -283,7 +299,7 @@ namespace Northwind.RepoV1.Test
         [Test]
         public async Task TestGetAllAsyncWithPredicatePage()
         {
-            var result =await _unitOfWork.EmployeeRepository.GetAllAsync(x => x.EmployeeId > 1, 2, 1);
+            var result = await _unitOfWork.EmployeeRepository.GetAllAsync(x => x.EmployeeId > 1, 2, 1);
 
             CollectionAssert.AreEqual(result.Results.Select(x => x.EmployeeId), _dbContext.Employees.Where(x => x.EmployeeId > 1).Skip(1).Take(1).Select(x => x.EmployeeId));
         }
@@ -291,7 +307,7 @@ namespace Northwind.RepoV1.Test
         [Test]
         public async Task TestGetAllAsyncWithPredicateInclude()
         {
-            var result =await _unitOfWork.EmployeeRepository.GetAllAsync(x => x.EmployeeId > 1, x => x.ReportsToNavigation);
+            var result = await _unitOfWork.EmployeeRepository.GetAllAsync(x => x.EmployeeId > 1, x => x.ReportsToNavigation);
 
             CollectionAssert.AreEqual(result.Select(x => x.ReportsToNavigation.EmployeeId),
                 _dbContext.Employees.Where(x => x.EmployeeId > 1).Include(x => x.ReportsToNavigation).Select(x => x.ReportsToNavigation.EmployeeId));
@@ -299,8 +315,8 @@ namespace Northwind.RepoV1.Test
         [Test]
         public async Task TestGetAllAsyncWithPredicatePageInclude()
         {
-            var result =await _unitOfWork.EmployeeRepository.GetAllAsync(x => x.EmployeeId > 1, 2, 1, x => x.ReportsToNavigation);
-            var anwser =await _dbContext.Employees.Where(x => x.EmployeeId > 1).Include(x => x.ReportsToNavigation)
+            var result = await _unitOfWork.EmployeeRepository.GetAllAsync(x => x.EmployeeId > 1, 2, 1, x => x.ReportsToNavigation);
+            var anwser = await _dbContext.Employees.Where(x => x.EmployeeId > 1).Include(x => x.ReportsToNavigation)
                 .Skip(1).Take(1).ToListAsync();
             CollectionAssert.AreEqual(result.Results.Select(x => x.ReportsToNavigation.EmployeeId),
              anwser.Select(x => x.ReportsToNavigation.EmployeeId));
@@ -502,7 +518,7 @@ namespace Northwind.RepoV1.Test
         [Test]
         public void TsetCount()
         {
-         Assert.That(_unitOfWork.EmployeeRepository.Count(),Is.EqualTo(_dbContext.Employees.Count()));  
+            Assert.That(_unitOfWork.EmployeeRepository.Count(), Is.EqualTo(_dbContext.Employees.Count()));
         }
 
 
@@ -515,7 +531,7 @@ namespace Northwind.RepoV1.Test
         [Test]
         public void TsetCountWithPredicate()
         {
-            Assert.That(_unitOfWork.EmployeeRepository.Count(x=>x.EmployeeId>1), Is.EqualTo(_dbContext.Employees.Count(x => x.EmployeeId > 1)));
+            Assert.That(_unitOfWork.EmployeeRepository.Count(x => x.EmployeeId > 1), Is.EqualTo(_dbContext.Employees.Count(x => x.EmployeeId > 1)));
         }
 
 

@@ -9,10 +9,11 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Northwind.Service.IService;
-using AutoMapper;
 using Northwind.Utility.Model.ViewModel;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
+using Mapster;
+using MapsterMapper;
 
 namespace Northwind.Service.Test
 {
@@ -25,16 +26,6 @@ namespace Northwind.Service.Test
         private Mock<IUnitOfWork> _unitOfWork;
         private Mock<IUserRepository> _userRepository;
 
-
-        public class MappingConfig : Profile
-        {
-            public MappingConfig()
-            {
-                CreateMap<Employee, EmployeeViewModel>().ReverseMap();
-
-                CreateMap<LocalUser, UserViewModel>().ReverseMap();
-            }
-        }
 
         [SetUp]
         public void Setup()
@@ -51,14 +42,7 @@ namespace Northwind.Service.Test
             var configuration = new ConfigurationBuilder()
                 .AddInMemoryCollection(myConfiguration)
                 .Build();
-            _userService = new UserService(_unitOfWork.Object, new Mapper(
-                new MapperConfiguration(cfg =>
-                {
-
-                    cfg.AddProfile<MappingConfig>();
-                }
-                )
-                ), configuration);
+            _userService = new UserService(_unitOfWork.Object,new Mapper(), configuration);
             _users = new List<LocalUser>() {
                 new LocalUser() {Id=1,UserName="AAA",Password="AAA",Name="AAA",Role="Admin"},
                 new LocalUser() {Id=2,UserName="BBB",Password="BBB",Name="BBB" },

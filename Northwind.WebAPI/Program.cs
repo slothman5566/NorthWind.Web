@@ -1,3 +1,5 @@
+using Mapster;
+using MapsterMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +10,7 @@ using Northwind.Repo;
 using Northwind.Service;
 using Northwind.Service.IService;
 using Northwind.WebAPI;
+using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -84,7 +87,10 @@ builder.Services.AddDbContext<NorthwindContext>(options => options.UseSqlServer(
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 builder.Services.AddTransient<IUserService, ApplicationUserService>();
-builder.Services.AddAutoMapper(typeof(MappingConfig));
+var config = TypeAdapterConfig.GlobalSettings;
+config.Scan(Assembly.GetExecutingAssembly());
+builder.Services.AddSingleton(config);
+builder.Services.AddScoped<IMapper, ServiceMapper>();
 builder.Services.AddAuthorization();
 
 var app = builder.Build();

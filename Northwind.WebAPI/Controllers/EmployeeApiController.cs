@@ -9,7 +9,7 @@ using Northwind.Service.IService;
 using Northwind.Utility;
 using Northwind.Utility.Model;
 using Northwind.Utility.Model.ViewModel;
-
+using Northwind.WebAPI.MapConfig;
 using System.Net;
 
 namespace Northwind.WebAPI.Controllers
@@ -35,7 +35,7 @@ namespace Northwind.WebAPI.Controllers
         public async Task<ActionResult<APIResponse>> GetAll()
         {
             var _response = new APIResponse();
-            var result = await _employeeService.GetAllLazyLoad(null,x=>x.ReportsToNavigation).ToListAsync();
+            var result = await _employeeService.GetAllLazyLoad(null, x => x.ReportsToNavigation).ToListAsync();
             _response.Result = _mapper.Map<List<EmployeeViewModel>>(result);
             _response.StatusCode = HttpStatusCode.OK;
             return Ok(_response);
@@ -58,7 +58,9 @@ namespace Northwind.WebAPI.Controllers
                 return NotFound("id 不存在");
             }
             var _response = new APIResponse();
-            _response.Result = _mapper.Map<EmployeeViewModel>(result);
+
+
+            _response.Result = _mapper.MulitMap<EmployeeViewModel>(Guid.NewGuid(), result, 10);
             _response.StatusCode = HttpStatusCode.OK;
 
 

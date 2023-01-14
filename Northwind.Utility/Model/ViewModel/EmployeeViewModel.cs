@@ -24,6 +24,8 @@ namespace Northwind.Utility.Model.ViewModel
         [StringLength(30)]
         public string? Title { get; set; }
 
-        public string ReportName { get; set; }
+        public Guid Gid { get; set; }
+
+        public string Test { get; set; }
     }
 }

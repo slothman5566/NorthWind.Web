@@ -8,12 +8,15 @@ namespace Northwind.WebAPI.MapConfig
 {
 
 
-    public class MyRegister : IRegister
+    public class EmployeeViewModelMapper : IRegister
     {
         public void Register(TypeAdapterConfig config)
         {
-            config.NewConfig<Employee, EmployeeViewModel>()
-                .Map(dest => dest.ReportName, src => src.ReportsToNavigation == null ? string.Empty : src.ReportsToNavigation.FirstName);
+            config.NewConfig<Guid, EmployeeViewModel>()
+                .Map(dest => dest.Gid, src => src);
+
+            config.NewConfig<int, EmployeeViewModel>()
+                .Map(dest => dest.Test, src => (src + 1).ToString());
         }
     }
 }

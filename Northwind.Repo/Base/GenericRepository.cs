@@ -50,10 +50,10 @@ namespace Northwind.Repo
             return _DbContext.Set<TEntity>().Add(entity).Entity;
         }
 
-        public TEntity Delete(TEntity entity)
+        public void Delete(TEntity entity)
         {
 
-            return _DbContext.Set<TEntity>().Remove(entity).Entity;
+            _DbContext.Set<TEntity>().Remove(entity);
         }
         public void DeleteRange(IEnumerable<TEntity> entities)
         {

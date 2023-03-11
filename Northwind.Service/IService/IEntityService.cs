@@ -19,7 +19,7 @@ namespace Northwind.Service.IService
 
         TEntity Insert(TEntity entity);
 
-        TEntity Delete(TEntity entity);
+        void Delete(TEntity entity);
 
         void DeleteRange(IEnumerable<TEntity> entities);
 
@@ -30,7 +30,7 @@ namespace Northwind.Service.IService
 
         Task<TEntity> InsertAsync(TEntity entity);
 
-        Task<TEntity> DeleteAsync(TEntity entity);
+        Task DeleteAsync(TEntity entity);
 
         Task DeleteRangeAsync(IEnumerable<TEntity> entities);
 

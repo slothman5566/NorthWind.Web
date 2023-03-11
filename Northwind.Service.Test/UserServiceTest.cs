@@ -35,14 +35,14 @@ namespace Northwind.Service.Test
             _userRepository = new Mock<IUserRepository>();
             _unitOfWork.Setup(x => x.UserRepository).Returns(_userRepository.Object);
             var myConfiguration = new Dictionary<string, string>
-{
+            {
                  {"ApiSettings:SecretKey", "this is my custom Secret key for authentication"}
             };
 
             var configuration = new ConfigurationBuilder()
                 .AddInMemoryCollection(myConfiguration)
                 .Build();
-            _userService = new UserService(_unitOfWork.Object,new Mapper(), configuration);
+            _userService = new UserService(_unitOfWork.Object, new Mapper(), configuration);
             _users = new List<LocalUser>() {
                 new LocalUser() {Id=1,UserName="AAA",Password="AAA",Name="AAA",Role="Admin"},
                 new LocalUser() {Id=2,UserName="BBB",Password="BBB",Name="BBB" },
@@ -57,17 +57,17 @@ namespace Northwind.Service.Test
                 _users.AsQueryable()
                 );
 
-            _userRepository.Setup(x => x.Delete(It.IsAny<LocalUser>())).Returns((LocalUser user) =>
+            _userRepository.Setup(x => x.Delete(It.IsAny<LocalUser>())).Callback((LocalUser user) =>
             {
                 if (_users.Where(x => x.Id == user.Id).Any())
                 {
                     if (_users.Remove(_users.Where(x => x.Id == user.Id).Single()))
                     {
-                        return user;
+                        
                     }
 
                 }
-                return null;
+                
             });
 
 
@@ -129,7 +129,7 @@ namespace Northwind.Service.Test
 
             });
             Assert.IsNotNull(user);
-        
+
             Assert.That(_users.Count, Is.EqualTo(4));
 
         }
@@ -138,7 +138,7 @@ namespace Northwind.Service.Test
 
         public async Task TestLoginSucess()
         {
-            var loginRequest=new LoginRequestViewModel() { UserName="AAA",Password="AAA"};
+            var loginRequest = new LoginRequestViewModel() { UserName = "AAA", Password = "AAA" };
             var loginResponse = await _userService.Login(loginRequest);
 
             Assert.IsNotNull(loginResponse);

@@ -30,17 +30,17 @@ namespace Northwind.Service
             _Repository = repository;
         }
 
-        public TEntity Delete(TEntity entity)
+        public void Delete(TEntity entity)
         {
             if (entity == null)
             {
                 throw new ArgumentNullException("entity");
             }
 
-            var model = _Repository.Delete(entity);
+           _Repository.Delete(entity);
 
             _UnitOfWork.SaveChange();
-            return model;
+           
         }
 
 
@@ -126,17 +126,17 @@ namespace Northwind.Service
             return model;
         }
 
-        public async Task<TEntity> DeleteAsync(TEntity entity)
+        public async Task DeleteAsync(TEntity entity)
         {
             if (entity == null)
             {
                 throw new ArgumentNullException("entity");
             }
 
-            var model = _Repository.Delete(entity);
+            _Repository.Delete(entity);
 
             await _UnitOfWork.SaveChangeAsync();
-            return model;
+            
         }
         public async Task DeleteRangeAsync(IEnumerable<TEntity> entities)
         {

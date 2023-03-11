@@ -18,7 +18,7 @@ namespace Northwind.Repo
 
         TEntity Insert(TEntity entity);
 
-        TEntity Delete(TEntity entity);
+        void Delete(TEntity entity);
 
         void DeleteRange(IEnumerable<TEntity> entities);
 

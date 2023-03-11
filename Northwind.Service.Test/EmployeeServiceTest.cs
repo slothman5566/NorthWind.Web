@@ -40,17 +40,17 @@ namespace Northwind.Service.Test
              .Returns((Expression<Func<Employee, bool>> filter) => _employees.Where(filter.Compile()).AsQueryable());
             _employeeRepository.Setup(x => x.GetAll()).Returns(_employees.AsQueryable());
 
-            _employeeRepository.Setup(x => x.Delete(It.IsAny<Employee>())).Returns((Employee employee) =>
+            _employeeRepository.Setup(x => x.Delete(It.IsAny<Employee>())).Callback((Employee employee) =>
             {
                 if (_employees.Where(x => x.EmployeeId == employee.EmployeeId).Any())
                 {
                     if (_employees.Remove(_employees.Where(x => x.EmployeeId == employee.EmployeeId).Single()))
                     {
-                        return employee;
+
                     }
 
                 }
-                return null;
+
             });
 
 
@@ -87,14 +87,15 @@ namespace Northwind.Service.Test
 
                 return null;
             });
-            
+
             _employeeRepository.Setup(x => x.GetAllLazyLoad(It.IsAny<Expression<Func<Employee, bool>>>(), It.IsAny<Expression<Func<Employee, object>>[]>()))
-                .Returns((Expression<Func<Employee, bool>> filter, Expression < Func<Employee, object>>[] children) => {
+                .Returns((Expression<Func<Employee, bool>> filter, Expression<Func<Employee, object>>[] children) =>
+                {
                     if (children != null)
                     {
                         children.ToList().ForEach(_ => _employees.AsQueryable().Include(_).Load());
                     }
-                    
+
                     if (filter == null)
                     {
                         return _employees.AsQueryable();
@@ -103,9 +104,9 @@ namespace Northwind.Service.Test
                     return _employees.AsQueryable().Where(filter);
 
                 }
-                  
-      
-                ); 
+
+
+                );
 
         }
 
@@ -145,17 +146,11 @@ namespace Northwind.Service.Test
         public void TestDelete()
         {
             var answer = _employees.First();
-            var result = _employeeService.Delete(_employees.First());
+            _employeeService.Delete(_employees.First());
             var count = _employeeService.GetAll().ToList();
-            Assert.Multiple(() => {
 
-                Assert.That(result, Is.EqualTo(answer));
+            Assert.That(count.Count, Is.EqualTo(2));
 
-
-
-                Assert.That(count.Count, Is.EqualTo(2));
-            });
-           
         }
         [Test]
         public void TestDeleteNotExist()
@@ -163,8 +158,7 @@ namespace Northwind.Service.Test
 
 
             var answer = _employees.First();
-            var result = _employeeService.Delete(new Employee() { EmployeeId = 4 });
-            Assert.That(result, Is.EqualTo(null));
+            _employeeService.Delete(new Employee() { EmployeeId = 4 });
 
 
             var count = _employeeService.GetAll().ToList();
@@ -235,8 +229,7 @@ namespace Northwind.Service.Test
         {
 
             var answer = _employees.First();
-            var result = await _employeeService.DeleteAsync(_employees.First());
-            Assert.That(result, Is.EqualTo(answer));
+            await _employeeService.DeleteAsync(_employees.First());
 
 
             var count = _employeeService.GetAll().ToList();

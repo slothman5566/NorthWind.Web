@@ -21,10 +21,10 @@ namespace Northwind.Service.Test
     [TestFixture]
     public class UserServiceTest
     {
-        private IUserService _userService;
-        private List<LocalUser> _users;
-        private Mock<IUnitOfWork> _unitOfWork;
-        private Mock<IUserRepository> _userRepository;
+        protected IUserService _userService;
+        protected List<LocalUser> _users;
+        protected Mock<IUnitOfWork> _unitOfWork;
+        protected Mock<IUserRepository> _userRepository;
 
 
         [SetUp]
@@ -119,7 +119,7 @@ namespace Northwind.Service.Test
         }
 
         [Test]
-        public async Task TestRegiester()
+        public virtual  async Task TestRegiester()
         {
 
             var user = await _userService.Register(new RegisterationUserViewModel()
@@ -136,7 +136,7 @@ namespace Northwind.Service.Test
 
         [Test]
 
-        public async Task TestLoginSucess()
+        public virtual async Task TestLoginSucess()
         {
             var loginRequest = new LoginRequestViewModel() { UserName = "AAA", Password = "AAA" };
             var loginResponse = await _userService.Login(loginRequest);
@@ -147,7 +147,7 @@ namespace Northwind.Service.Test
 
         [Test]
 
-        public async Task TestLoginFailed()
+        public virtual async Task TestLoginFailed()
         {
             var loginRequest = new LoginRequestViewModel() { UserName = "AAAC", Password = "AAA" };
             var loginResponse = await _userService.Login(loginRequest);

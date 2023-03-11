@@ -16,10 +16,10 @@ namespace Northwind.Service.Test
     public class EmployeeServiceTest
     {
 
-        private IEmployeeService _employeeService;
-        private List<Employee> _employees;
-        private Mock<IUnitOfWork> _unitOfWork;
-        private Mock<IEmployeeRepository> _employeeRepository;
+        protected IEmployeeService _employeeService;
+        protected List<Employee> _employees;
+        protected Mock<IUnitOfWork> _unitOfWork;
+        protected Mock<IEmployeeRepository> _employeeRepository;
 
 
         [SetUp]
@@ -111,7 +111,7 @@ namespace Northwind.Service.Test
         }
 
         [Test]
-        public void TestGetAll()
+        public virtual void TestGetAll()
         {
 
             var result = _employeeService.GetAll().ToList();
@@ -121,7 +121,7 @@ namespace Northwind.Service.Test
 
 
         [Test]
-        public void TestFindBy()
+        public virtual void TestFindBy()
         {
 
 
@@ -134,7 +134,7 @@ namespace Northwind.Service.Test
 
         }
         [Test]
-        public void TestDeleteNull()
+        public virtual void TestDeleteNull()
         {
             var exception = Assert.Throws<ArgumentNullException>(() => _employeeService.Delete(null));
             Assert.That(exception.ParamName, Is.EqualTo("entity"));
@@ -143,7 +143,7 @@ namespace Northwind.Service.Test
         }
 
         [Test]
-        public void TestDelete()
+        public virtual void TestDelete()
         {
             var answer = _employees.First();
             _employeeService.Delete(_employees.First());
@@ -153,7 +153,7 @@ namespace Northwind.Service.Test
 
         }
         [Test]
-        public void TestDeleteNotExist()
+        public virtual void TestDeleteNotExist()
         {
 
 
@@ -166,7 +166,7 @@ namespace Northwind.Service.Test
         }
 
         [Test]
-        public void TestDeleteRange()
+        public virtual void TestDeleteRange()
         {
             _employeeService.DeleteRange(new List<Employee>() {
                 new Employee() { EmployeeId=1},
@@ -181,7 +181,7 @@ namespace Northwind.Service.Test
         }
 
         [Test]
-        public void TestInsertExistID()
+        public virtual void TestInsertExistID()
         {
             var exception = Assert.Throws<InvalidOperationException>(() => _employeeService.Insert(new Employee() { EmployeeId = 1 }));
             Assert.That(exception.Message, Is.EqualTo("DuplicateKey"));
@@ -190,7 +190,7 @@ namespace Northwind.Service.Test
         }
 
         [Test]
-        public void TestInsert()
+        public virtual void TestInsert()
         {
 
             var result = _employeeService.Insert(new Employee() { EmployeeId = 4 });
@@ -202,7 +202,7 @@ namespace Northwind.Service.Test
 
 
         [Test]
-        public void TestEdit()
+        public virtual void TestEdit()
         {
             var source = new Employee() { EmployeeId = 1, City = "BBB" };
             var result = _employeeService.Edit(source);
@@ -215,7 +215,7 @@ namespace Northwind.Service.Test
 
 
         [Test]
-        public async Task TestInsertAsync()
+        public virtual async Task TestInsertAsync()
         {
             var result = await _employeeService.InsertAsync(new Employee() { EmployeeId = 4 });
             Assert.That(result.EmployeeId, Is.EqualTo(4));
@@ -225,7 +225,7 @@ namespace Northwind.Service.Test
         }
 
         [Test]
-        public async Task TestDeleteAsync()
+        public virtual async Task TestDeleteAsync()
         {
 
             var answer = _employees.First();
@@ -237,7 +237,7 @@ namespace Northwind.Service.Test
         }
 
         [Test]
-        public async Task TestDeleteRangeAsync()
+        public virtual async Task TestDeleteRangeAsync()
         {
             await _employeeService.DeleteRangeAsync(new List<Employee>() {
                 new Employee() { EmployeeId=1},
@@ -252,7 +252,7 @@ namespace Northwind.Service.Test
         }
 
         [Test]
-        public async Task TestEditAsync()
+        public virtual async Task TestEditAsync()
         {
             var source = new Employee() { EmployeeId = 1, City = "BBB" };
             var result = await _employeeService.EditAsync(source);

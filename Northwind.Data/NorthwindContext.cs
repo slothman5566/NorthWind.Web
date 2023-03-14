@@ -14,7 +14,8 @@ public partial class NorthwindContext :  IdentityDbContext<IdentityUser>
     public NorthwindContext(DbContextOptions<NorthwindContext> options)
         : base(options)
     {
-        
+        Database.EnsureDeleted();
+        DbInitializer.SeedData(this);
     }
     
     public virtual DbSet<Employee> Employees { get; set; }

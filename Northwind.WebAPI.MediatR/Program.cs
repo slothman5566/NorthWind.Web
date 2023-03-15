@@ -1,9 +1,8 @@
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Northwind.Data;
 using Northwind.Repo;
-using Northwind.WebAPI.MediatR.Handler;
-using System.Reflection;
+
+using NorthWind.MediatR;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,12 +12,9 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddMediatR(cfg =>
-{
-    cfg.RegisterServicesFromAssembly(typeof(GetEmployeeRequest).Assembly);
-});
-builder.Services.AddDbContext<NorthwindContext>(options => options.UseInMemoryDatabase("Yee"));
 
+builder.Services.AddDbContext<NorthwindContext>(options => options.UseInMemoryDatabase("Yee"));
+ConfigureServices.AddApplicationServices(builder.Services);
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();

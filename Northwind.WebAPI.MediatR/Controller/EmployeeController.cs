@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Northwind.WebAPI.MediatR.Handler;
+using NorthWind.MediatR.Request;
 
 namespace Northwind.WebAPI.MediatR.Controller
 {
